@@ -362,7 +362,19 @@
         }
 
         function copyCode(code) {
-            navigator.clipboard.writeText(code).then(() => showToast(code + ' 已复制'));
+            const ta = document.createElement('textarea');
+            ta.value = code;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast(code + ' 已复制');
+            } catch(e) {
+                showToast('复制失败');
+            }
+            document.body.removeChild(ta);
         }
 
         function showToast(msg) {
